@@ -43,19 +43,51 @@ function ProductPreview() {
 
 function DemoModal({ onClose }) {
   const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState("");
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setStatus("sending");
+    setError("");
+
+    try {
+      const form = new FormData(event.currentTarget);
+      const response = await fetch("/api/send-demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(form.entries())),
+      });
+
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}));
+        setStatus("error");
+        setError(result.error || "Something went wrong. Please try again.");
+        return;
+      }
+
+      setStatus("idle");
+      setSent(true);
+    } catch {
+      setStatus("error");
+      setError("We could not reach the email service. Please try again.");
+    }
+  }
+
   return <div className="modal-backdrop" role="presentation" onClick={onClose}>
     <div className="modal" role="dialog" aria-modal="true" aria-labelledby="demo-title" onClick={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
       {!sent ? <>
         <div className="eyebrow">See Caseload in action</div><h2 id="demo-title">Make your team’s time count.</h2>
         <p>Tell us a little about your organisation and we’ll get in touch to arrange a walkthrough.</p>
-        <form onSubmit={(event) => { event.preventDefault(); setSent(true); }}>
-          <div className="form-grid"><label>First name<input required placeholder="Jamie" /></label><label>Work email<input required type="email" placeholder="jamie@organisation.com" /></label></div>
-          <label>Organisation<input required placeholder="Your organisation" /></label>
-          <label>What would you like to see?<select defaultValue=""><option value="" disabled>Select an option</option><option>Progress note workflow</option><option>Incident follow-up</option><option>Full platform overview</option></select></label>
-          <button className="button button-dark full" type="submit">Request a demo <Arrow /></button>
+        <form onSubmit={handleSubmit}>
+          <div className="form-grid"><label>First name<input name="firstName" required placeholder="Jamie" /></label><label>Work email<input name="email" required type="email" placeholder="jamie@organisation.com" /></label></div>
+          <label>Organisation<input name="organisation" required placeholder="Your organisation" /></label>
+          <label>What would you like to see?<select name="interest" required defaultValue=""><option value="" disabled>Select an option</option><option>Progress note workflow</option><option>Incident follow-up</option><option>Full platform overview</option></select></label>
+          <button className="button button-dark full" type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending..." : <>Request a demo <Arrow /></>}</button>
+          {error && <p className="form-error" role="alert">{error}</p>}
         </form>
-      </> : <div className="success-state"><div className="success-icon">✓</div><div className="eyebrow">Request received</div><h2>We’ll be in touch soon.</h2><p>Thanks for your interest in Caseload AI. This demo form is ready to connect to your preferred email or CRM when you deploy.</p><button className="button button-dark" onClick={onClose}>Back to site <Arrow /></button></div>}
+      </> : <div className="success-state"><div className="success-icon">✓</div><div className="eyebrow">Request received</div><h2>We’ll be in touch soon.</h2><p>Thanks for your interest in Caseload AI. We’ve sent your request to the team.</p><button className="button button-dark" onClick={onClose}>Back to site <Arrow /></button></div>}
     </div>
   </div>;
 }
