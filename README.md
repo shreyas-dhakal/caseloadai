@@ -17,10 +17,10 @@ In Vercel, import the repository and set the project root directory to `showcase
 
 ## Configure demo emails
 
-The form sends requests through the Vercel serverless function in `api/send-demo.js` and Resend. Add these environment variables in Vercel (and in a local `.env` file when testing locally):
+The form sends requests through the Vercel serverless function in `api/send-demo.js` and FormSubmit. Add this environment variable in Vercel (and in a local `.env` file when testing locally):
 
-- `RESEND_API_KEY`: your Resend API key. Keep this server-side; do not prefix it with `VITE_`.
-- `RESEND_FROM_EMAIL`: a sender address on a domain verified in Resend, such as `website@your-domain.com`.
-- `RESEND_TO_EMAIL`: the inbox where demo requests should arrive.
+- `FORMSUBMIT_TO_EMAIL`: the inbox where demo requests should arrive.
 
 Copy `.env.example` as a starting point. The visitor's email is set as `Reply-To`, so replying to the notification goes directly to them. After adding the variables, redeploy Vercel for them to take effect.
+
+FormSubmit sends a confirmation email to the recipient after the first request. Click the confirmation link once; later requests will be delivered automatically. No domain or API key is required.
