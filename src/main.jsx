@@ -60,8 +60,8 @@ function LanguageStudio() {
           <h2>Care doesn’t<br /><span>sound one way.</span></h2>
         </div>
         <div className="language-copy">
-          <p>Capture the conversation in the language people feel most themselves in. Caseload supports voice-led notes across <strong>up to 99 languages</strong>, while keeping the record clear for every member of the team.</p>
-          <div className="language-stat"><strong>99</strong><span>languages<br />supported</span></div>
+          <p>Capture the conversation in the language people feel most themselves in. Caseload supports voice-led notes across <strong>up to 15 languages</strong>, while keeping the record clear for every member of the team.</p>
+          <div className="language-stat"><strong>15</strong><span>languages<br />supported</span></div>
         </div>
       </div>
       <div className="language-demo">
@@ -76,7 +76,7 @@ function LanguageStudio() {
           </div>
           <div className="transcript-card"><span>AI DRAFT</span><p>Participant shared they are feeling positive about the week ahead.</p><b>Human review ready <Arrow /></b></div>
         </div>
-        <div className="language-picker"><span>Try another language</span><div className="language-options">{languageSamples.map((language) => <button key={language.name} type="button" aria-pressed={selectedLanguage.name === language.name} className={selectedLanguage.name === language.name ? "selected" : ""} onClick={() => setSelectedLanguage(language)}><span>{language.code}</span>{language.name}</button>)}</div><small>+ 94 more languages</small></div>
+        <div className="language-picker"><span>Try another language</span><div className="language-options">{languageSamples.map((language) => <button key={language.name} type="button" aria-pressed={selectedLanguage.name === language.name} className={selectedLanguage.name === language.name ? "selected" : ""} onClick={() => setSelectedLanguage(language)}><span>{language.code}</span>{language.name}</button>)}</div><small>+ 10 more languages</small></div>
       </div>
     </section>
   );
