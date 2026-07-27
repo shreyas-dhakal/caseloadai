@@ -12,7 +12,7 @@ function ProductPreview() {
       <div className="preview-topbar">
         <div className="window-dots"><i /><i /><i /></div>
         <div className="preview-address">app.caseload.ai / notes / review</div>
-        <div className="preview-avatar">JD</div>
+        <div className="preview-avatar">YC</div>
       </div>
       <div className="preview-body">
         <aside className="preview-rail">
